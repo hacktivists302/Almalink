@@ -141,6 +141,17 @@ const unregisterUserFromEvent = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, "Unregistered successfully"));
 });
 
+const getUserEvents = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    const user = await User.findById(userId).populate("registeredEvents");
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    return res.status(200).json(new ApiResponse(200, user.registeredEvents));
+});
+
 const isUserRegistered = asyncHandler(async (req, res) => {
     const { eventId } = req.params;
     const userId = req.user._id;
@@ -157,6 +168,14 @@ const isUserRegistered = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, false));
 });
 
+const getUserUnregisterdEvents = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    const events = await Event.find({ registedUsers: { $ne: userId } });
+
+    return res.status(200).json(new ApiResponse(200, events));
+});
+
 export {
     createEvent,
     getAllEvents,
@@ -164,4 +183,6 @@ export {
     registerUserToEvent,
     unregisterUserFromEvent,
     isUserRegistered,
+    getUserEvents,
+    getUserUnregisterdEvents,
 };
