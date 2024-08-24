@@ -1,19 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EventCard from "../components/MyEventCard";
 import { eventData } from "../utility/utility";
 import { RegisterEvent } from "../components/RegisterEvent";
+import { API } from "../utility/api";
+import axios from "axios";
 
 export const Events = () => {
+  const [myEvents, setMyEvents] = useState([]);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(`${API}/events/my-events`);
+        setMyEvents(response.data.data);
+
+        const response2 = await axios.get(`${API}/events/unregistered`);
+        setEvents(response2.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <span className="mx-2  text-4xl font-bold  text-gray-800 my-8 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text">
         My Events
       </span>
       <div className="flex mt-5  h-[200px] w-full ">
-        {eventData.slice(0, 3).map((data, index) => (
+        {myEvents.slice(0, 3).map((data, index) => (
           <EventCard
             key={index}
-            imageUrl={data.imageUrl}
+            imageUrl={data.coverImage}
             title={data.title}
             description={data.description}
             link={data.link}
@@ -26,10 +45,15 @@ export const Events = () => {
         </span>
       </div>
       <div className="m-2 mb-5 grid grid-cols-2 gap-5 ">
-        <RegisterEvent />
-        <RegisterEvent />
-        <RegisterEvent />
-        <RegisterEvent />
+        {events.map((data, index) => (
+          <EventCard
+            key={index}
+            imageUrl={data.coverImage}
+            title={data.title}
+            description={data.description}
+            link={data.link}
+          />
+        ))}
       </div>
       <PlusButton />
     </>
