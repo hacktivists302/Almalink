@@ -46,12 +46,13 @@ export const Events = () => {
       </div>
       <div className="m-2 mb-5 grid grid-cols-2 gap-5 ">
         {events.map((data, index) => (
-          <EventCard
+          <RegisterEvent
             key={index}
             imageUrl={data.coverImage}
             title={data.title}
             description={data.description}
             link={data.link}
+            startDate={data.startDate}
           />
         ))}
       </div>
