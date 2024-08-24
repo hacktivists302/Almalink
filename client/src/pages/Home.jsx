@@ -5,10 +5,26 @@ import GreaterIcon from "../assets/Chevright.svg";
 import LessIcon from "../assets/ChevLeft.svg";
 import { Communities } from "../components/Communities";
 import PostCard from "../components/PostCard";
+import axios from "axios";
+import { API } from "../utility/api";
 
 export const Home = () => {
+  const [events, setEvents] = useState([]);
   const scrollContainerRef = useRef(null);
   const [viewVisible, setViewVisible] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      console.log("Fetching events");
+
+      try {
+        const response = await axios.get(`${API}/events/unregistered`);
+        setEvents(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -28,12 +44,12 @@ export const Home = () => {
           ref={scrollContainerRef}
           className="  pl-5   flex overflow-x-hidden "
         >
-          {dummyEvents.map((event, index) => (
+          {events.map((event, index) => (
             <EventCard
               key={index}
               title={event.title}
               content={event.content}
-              postImg={event.img}
+              postImg={event.coverImage}
             />
           ))}
         </div>
@@ -44,7 +60,6 @@ export const Home = () => {
         <Communities />
       </div>
     </>
-
   );
 };
 
@@ -71,7 +86,7 @@ function ViewAll({ handleScroll, viewVisible }) {
 
 function Posts() {
   return (
-    <div className="col-span-4 p-5 m-5 flex flex-col gap-2 rounded-lg w-[900px] h-screen "> 
+    <div className="col-span-4 p-5 m-5 flex flex-col gap-2 rounded-lg w-[900px] h-screen ">
       {posts.map((post) => (
         <PostCard
           key={post.postId}
