@@ -9,6 +9,10 @@ const userSchema = new Schema(
             required: true,
             trim: true,
         },
+        enrollmentNumber: {
+            type: String,
+            required: true,
+        },
         email: {
             type: String,
             required: true,
@@ -29,6 +33,11 @@ const userSchema = new Schema(
             type: String,
             enum: ["student", "alumni"],
             default: "student",
+        },
+        status: {
+            type: String,
+            enum: ["pending", "denied", "approved"],
+            default: "pending",
         },
         city: {
             type: String,
