@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export const SignUp = ({ formData, setFormData }) => {
+export const Registration1 = ({ formData, setFormData }) => {
   const navigate = useNavigate();
   const { name, email, phone, password } = formData;
    const handleNext = () => {

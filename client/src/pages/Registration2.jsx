@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const RegistrationPage2 = ({ formData, setFormData }) => {
+export const Registration2 = ({ formData, setFormData }) => {
   const navigate = useNavigate();
   const { role } = formData;
 
