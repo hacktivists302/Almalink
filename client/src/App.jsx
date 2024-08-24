@@ -11,6 +11,7 @@ import { Home } from "./pages/Home";
 import { SideBar } from "./components/SideBar";
 import { NavBar } from "./components/NavBar";
 import { SignUp } from "./pages/Signup";
+import Login from "./pages/Login";
 
 function Layout() {
   return (
@@ -49,7 +50,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Routes for the sign-up and registration steps */}
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/register" element={<SignUp />} />
+        <Route path="/login" element={<Login/>} />
         <Route
           path="/register/step1"
           element={

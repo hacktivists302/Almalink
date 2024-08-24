@@ -3,7 +3,7 @@ import { SearchPeople } from "./SearchPeople";
 
 export const People = () => {
   return (
-    <div className="scrollbar overflow-y-hidden hover:overflow-y-scroll col-span-2 border border-black rounded-lg p-2">
+    <div className="   scrollbar overflow-y-hidden hover:overflow-y-scroll col-span-2 border border-black rounded-lg p-2">
       <SearchPeople />
       <ChatProfileComponent />
       <ChatProfileComponent />
