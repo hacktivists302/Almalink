@@ -5,7 +5,7 @@ import { useState } from "react";
 export const NavBar = () => {
   return (
     <nav className="border ">
-      <div className="max-w-screen-xl  flex flex-wrap items-center justify-between mx-auto p-4 ">
+      <div className="max-w-screen-2xl  flex flex-wrap items-center  justify-between mx-auto p-4 ">
         <SearchBox />
         <UserProfileDropdown />
       </div>
@@ -16,7 +16,7 @@ export const NavBar = () => {
 function SearchBox() {
   return (
     <>
-      <div className="pl-10 w-[500px]  mx-auto">
+      <div className="pl-10 w-[800px]  mx-auto">
         <div className="relative flex items-center">
           <img
             className="absolute  pl-2  pointer"
