@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { API } from "../utility/api";
 
 export const Profile = () => {
   const user = {
@@ -26,6 +28,21 @@ export const Profile = () => {
     ],
   };
 
+  const [currUser, setCurrUser] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `${API}/users/p/66cab0537344c91a1a1390e6`
+        );
+        setCurrUser(response.data.data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
   return (
     <div className="w-scren h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-teal-500 p-1">
       {/* Inner Container */}
@@ -34,7 +51,7 @@ export const Profile = () => {
           {/* Profile Picture */}
           <div className="md:w-1/3 flex justify-center p-6 bg-gray-100">
             <img
-              src={user.profilePic}
+              src={currUser.profilePic}
               alt="Profile"
               className="rounded-lg h-40 w-40 object-cover border-4 border-white shadow-lg"
             />
@@ -43,7 +60,9 @@ export const Profile = () => {
           {/* User Details */}
           <div className="md:w-2/3 p-6">
             {/* User Bio */}
-            <h2 className="text-2xl font-bold text-gray-800">{user.name}</h2>
+            <h2 className="text-2xl font-bold text-gray-800">
+              {currUser.name}
+            </h2>
             <p className="text-gray-600 mt-2">{user.bio}</p>
             <div className="flex flex-wrap">
               {/* Skills */}
@@ -67,14 +86,15 @@ export const Profile = () => {
                   Interests
                 </h3>
                 <ul className="mt-2 space-y-2">
-                  {user.interests.map((interest, index) => (
-                    <li
-                      key={index}
-                      className="text-gray-800 m-2 bg-gray-200 px-3 py-1 rounded-md inline-block"
-                    >
-                      {interest}
-                    </li>
-                  ))}
+                  {user &&
+                    user.interests.map((interest, index) => (
+                      <li
+                        key={index}
+                        className="text-gray-800 m-2 bg-gray-200 px-3 py-1 rounded-md inline-block"
+                      >
+                        {interest}
+                      </li>
+                    ))}
                 </ul>
               </div>
             </div>

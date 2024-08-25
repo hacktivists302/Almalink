@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
-=======
 import { Registration1 } from "./pages/Registration1";
 import { Registration2 } from "./pages/Registration2";
 import { Registration3 } from "./pages/Registration3";
 import { Registration4 } from "./pages/Registration4";
->>>>>>> 0b9a68d28fb29c5585ee0b9a60d6c32af2ea3052
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { CreateEventPage } from "./pages/CreateEventPage";
 import { Events } from "./pages/Events";
@@ -76,12 +73,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Routes for the sign-up and registration steps */}
-<<<<<<< HEAD
         {/* <Route path="/register" element={<SignUp />} /> */}
         <Route path="/login" element={<Login />} />
         {/* Authentication and Registration Routes */}
-=======
->>>>>>> 0b9a68d28fb29c5585ee0b9a60d6c32af2ea3052
         <Route path="/login" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />
 
