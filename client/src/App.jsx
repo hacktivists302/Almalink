@@ -1,9 +1,4 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Registration1 } from "./pages/Registration1";
-import { Registration2 } from "./pages/Registration2";
-import { Registration3 } from "./pages/Registration3";
-import { Registration4 } from "./pages/Registration4";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Registration1 } from "./pages/Registration1";
 import { Registration2 } from "./pages/Registration2";
@@ -54,6 +49,7 @@ function App() {
     university: "",
     city: "",
     bio: "",
+    enrollmentNumber: "",
     profilePic: null,
   });
 
@@ -61,8 +57,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Routes for the sign-up and registration steps */}
-       {/* <Route path="/register" element={<SignUp />} /> */}
-        <Route path="/login" element={<Login/>} />
+        {/* <Route path="/register" element={<SignUp />} /> */}
+        <Route path="/login" element={<Login />} />
         {/* Authentication and Registration Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />

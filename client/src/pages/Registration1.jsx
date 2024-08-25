@@ -5,6 +5,8 @@ export const Registration1 = ({ formData, setFormData }) => {
   const { name, email, phone, password } = formData;
 
   const handleNext = () => {
+    console.log(formData);
+
     navigate("/register/step2");
   };
 

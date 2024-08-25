@@ -1,13 +1,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API } from "../utility/api";
 
 export const Registration4 = ({ formData, setFormData }) => {
   const navigate = useNavigate();
   const { bio, profilePic } = formData;
 
-  const handleNext = () => {
-    // Submit form or redirect to home
-    navigate("/");
+  const handleNext = async () => {
+    console.log(formData);
+
+    try {
+      const response = await axios.post(`${API}/users/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+      navigate("../login");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -32,9 +45,14 @@ export const Registration4 = ({ formData, setFormData }) => {
             <div className="space-y-4">
               <input
                 type="file"
-                onChange={(e) =>
-                  setFormData({ ...formData, profilePic: e.target.files[0] })
-                }
+                onChange={(e) => {
+                  console.log(e.target.files[0]);
+
+                  setFormData({
+                    ...formData,
+                    profilePic: e.target.files[0],
+                  });
+                }}
                 className=" bg-slate-500 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer  "
               />
               <textarea

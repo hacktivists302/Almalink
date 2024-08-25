@@ -15,8 +15,9 @@ export default function Login() {
       email,
       password,
     });
+    console.log("response", response);
 
-    navigate("/");
+    navigate("/user/home");
   };
 
   return (
