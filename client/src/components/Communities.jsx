@@ -1,48 +1,78 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API } from "../utility/api";
 
 export const Communities = () => {
   const [showForm, setShowForm] = useState(false);
+  const [communities, setCommunities] = useState([]);
+  const navigate = useNavigate();
+
+  const createCommunity = async (e) => {
+    e.preventDefault();
+    const communityName = e.target.communityName.value;
+    const imageUrl = e.target.imageUrl.value;
+
+    try {
+      const response = await axios.post(
+        `${API}/communities`,
+        {
+          name: communityName,
+          imageUrl,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log(response.data);
+      setCommunities([...communities, response.data.data]);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <div className="col-span-2 mt-5 mr-5 px-5 font-medium text-white bg-gradient-to-b from-slate-700 to-gray-800 rounded-2xl shadow-2xl h-[300px] overflow-hidden">
-      <div className="py-4">
+    <div className="relative col-span-2 mt-5 mr-5 px-5 font-medium text-white bg-gradient-to-b from-slate-700 to-gray-800 rounded-2xl shadow-2xl h-[300px] overflow-hidden">
+      <div className="py-4 absolute">
         <div className="text-gray-400 mb-4 text-center tracking-wide uppercase text-sm">
           Communities
         </div>
-        <div className="space-y-2">
-          <CommunityComponent
-            CommunityImg={
-              "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-            }
-            CommunityName={"New Community"}
-          />
-          <CommunityComponent
-            CommunityImg={
-              "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-            }
-            CommunityName={"New Community"}
-          />
-          <CommunityComponent
-            CommunityImg={
-              "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-            }
-            CommunityName={"New Community"}
-          />
-        </div>
-
         {/* Create New Community Button */}
-        <div className="mt-4 text-center">
+        <div className="text-center mb-4 absolute ">
           <button
             onClick={() => setShowForm(true)}
-            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+            className="bg-blue-600 absolute bottom-0 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
           >
             Create New Community
           </button>
         </div>
+        <div className="space-y-2">
+          {communities.length > 0 ? (
+            communities.map((community) => (
+              <CommunityComponent
+                key={community._id}
+                CommunityImg={community.imageUrl}
+                CommunityName={community.name}
+              />
+            ))
+          ) : (
+            <div className="text-center text-gray-400">
+              No communities found. Create one!
+            </div>
+          )}
+        </div>
       </div>
 
-      {showForm && <NewCommunityForm onClose={() => setShowForm(false)} />}
+      {showForm && (
+        <NewCommunityForm
+          onClose={() => setShowForm(false)}
+          onSubmit={createCommunity}
+        />
+      )}
     </div>
   );
 };
@@ -63,9 +93,9 @@ function CommunityComponent({ CommunityImg, CommunityName }) {
   );
 }
 
-function NewCommunityForm({ onClose }) {
+function NewCommunityForm({ onClose, onSubmit }) {
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+    <div className="inset-0 fixed bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-800">Create Community</h2>
@@ -76,13 +106,14 @@ function NewCommunityForm({ onClose }) {
             ✖️
           </button>
         </div>
-        <form>
+        <form onSubmit={onSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Community Name
             </label>
             <input
               type="text"
+              name="communityName"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter Community Name"
             />
@@ -93,6 +124,7 @@ function NewCommunityForm({ onClose }) {
             </label>
             <input
               type="text"
+              name="imageUrl"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter Image URL"
             />
@@ -107,7 +139,7 @@ function NewCommunityForm({ onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="text-gray-600 hover:text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="text-gray-600  hover:text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Cancel
             </button>
