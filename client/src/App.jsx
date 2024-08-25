@@ -4,14 +4,24 @@ import { Registration1 } from "./pages/Registration1";
 import { Registration2 } from "./pages/Registration2";
 import { Registration3 } from "./pages/Registration3";
 import { Registration4 } from "./pages/Registration4";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { Registration1 } from "./pages/Registration1";
+import { Registration2 } from "./pages/Registration2";
+import { Registration3 } from "./pages/Registration3";
+import { Registration4 } from "./pages/Registration4";
+import { CreateEventPage } from "./pages/CreateEventPage";
 import { Events } from "./pages/Events";
+import { Event } from "./pages/Event";
 import { Chats } from "./pages/Chats";
 import { Profile } from "./pages/Profile";
 import { Home } from "./pages/Home";
 import { SideBar } from "./components/SideBar";
 import { NavBar } from "./components/NavBar";
+import { AdminLogin } from "./pages/AdminLogin";
 import Login from "./pages/Login";
+import { NotFound } from "./pages/NotFound";
 
+// Layout Component for routes that require Sidebar and Navbar
 function Layout() {
   return (
     <div className="flex">
@@ -20,11 +30,13 @@ function Layout() {
         <NavBar />
         <div className="pl-[80px] pt-2">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/chats" element={<Chats />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="home" element={<Home />} />
+            <Route path="events" element={<Events />} />
+            <Route path="event/:userId" element={<Event />} />
+            <Route path="chats" element={<Chats />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="event/create" element={<CreateEventPage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
@@ -51,6 +63,9 @@ function App() {
         {/* Routes for the sign-up and registration steps */}
        {/* <Route path="/register" element={<SignUp />} /> */}
         <Route path="/login" element={<Login/>} />
+        {/* Authentication and Registration Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route
           path="/register/step1"
           element={
@@ -76,12 +91,17 @@ function App() {
           }
         />
 
-        {/* All other routes use the Layout */}
-        <Route path="/*" element={<Layout />} />
+        {/* Protected Routes with Sidebar and Navbar */}
+        <Route path="/user/*" element={<Layout />} />
+
+        {/* Redirect to /user/home or /login if not authenticated */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        {/* Fallback Route */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-  

@@ -39,7 +39,7 @@ export const Home = () => {
 
   return (
     <>
-      <div className="w-screen flex items-center  relative">
+      <div className="w-full flex items-center  relative">
         <div
           ref={scrollContainerRef}
           className="  pl-5   flex overflow-x-hidden "
@@ -53,7 +53,13 @@ export const Home = () => {
             />
           ))}
         </div>
-        <ViewAll handleScroll={handleScroll} viewVisible={viewVisible} />
+        <div className="text-slate-400 text-[14px] pl-2 absolute right-0">
+          <img
+            className="w-[30px] opacity-75 rounded-full bg-slate-300 hover:bg-slate-200 cursor-pointer"
+            src={viewVisible ? LessIcon : GreaterIcon}
+            onClick={handleScroll}
+          />
+        </div>
       </div>
       <div className=" grid grid-cols-6 flex-shrink-0">
         <Posts />
@@ -63,26 +69,7 @@ export const Home = () => {
   );
 };
 
-function ViewAll({ handleScroll, viewVisible }) {
-  return (
-    <>
-      <div className="text-slate-400 text-[14px] pl-2 absolute right-0">
-        <img
-          className="w-[30px] rounded-full bg-slate-300 hover:bg-slate-200 cursor-pointer"
-          src={viewVisible ? GreaterIcon : LessIcon}
-          onClick={handleScroll}
-        />
-        {viewVisible ? (
-          <div className="mt-2 hover:underline">
-            <a href="/events">view all</a>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-    </>
-  );
-}
+
 
 function Posts() {
   return (

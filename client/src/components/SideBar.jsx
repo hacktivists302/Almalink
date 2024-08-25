@@ -46,7 +46,7 @@ function NavigateButton({ title, icon, isCollapsed }) {
         isCollapsed ? "justify-center" : "items-center gap-10 justify-start"
       } w-full hover:bg-slate-700 rounded-lg p-2 text-slate-200`}
     >
-      <Link to={`/${title}`} >
+      <Link to={`/user/${title}`} >
       <img
         src={icon}
         alt={`${title} icon`}
@@ -58,7 +58,7 @@ function NavigateButton({ title, icon, isCollapsed }) {
       {!isCollapsed && (
         <Link
           className="flex-1 text-left text-2xl font-medium"
-          to={`/${title}`}
+          to={`/user/${title}`}
         >
           {title}
         </Link>
