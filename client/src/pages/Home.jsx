@@ -39,10 +39,10 @@ export const Home = () => {
 
   return (
     <>
-      <div className="w-full flex items-center  relative">
+      <div className=" w-full flex items-center  relative">
         <div
           ref={scrollContainerRef}
-          className="  pl-5   flex overflow-x-hidden "
+          className="  pl-5    flex overflow-x-hidden "
         >
           {events.map((event, index) => (
             <EventCard

@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-
+import { useNavigate } from "react-router-dom";
 import { brainwave } from "../assets";
 import { navigation } from "../constants";
 import Button from "./Button";
@@ -10,6 +10,7 @@ import { useState } from "react";
 
 const Header = () => {
   const pathname = useLocation();
+  const navigate = useNavigate();
   const [openNavigation, setOpenNavigation] = useState(false);
 
   const toggleNavigation = () => {
@@ -37,7 +38,7 @@ const Header = () => {
     >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
         <a className="block w-[12rem] xl:mr-8" href="#hero">
-          <img src={brainwave} width={190} height={40} alt="AlmaLink" />
+          <img src={"https://cdn-icons-png.flaticon.com/128/999/999663.png"} width={35} height={35} alt="AlmaLink" />
         </a>
 
         <nav
@@ -68,12 +69,12 @@ const Header = () => {
         </nav>
 
         <a
-          href="#signup"
+          href="/register/step1"
           className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
         >
           New account
         </a>
-        <Button className="hidden lg:flex" href="#login">
+        <Button  className="hidden lg:flex" href="/login">
           Sign in
         </Button>
 

@@ -16,7 +16,7 @@ export const NavBar = () => {
 function SearchBox() {
   return (
     <>
-      <div className="pl-10 w-[800px]  mx-auto">
+      <div className="pl-10 w-[800px]   mx-auto">
         <div className="relative flex items-center">
           <img
             className="absolute  pl-2  pointer"
