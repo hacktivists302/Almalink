@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const RegistrationPage4 = ({ formData, setFormData }) => {
+export const Registration4 = ({ formData, setFormData }) => {
   const navigate = useNavigate();
   const { bio, profilePic } = formData;
 

@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Registration1 } from "./pages/Registration1";
+import { Registration2 } from "./pages/Registration2";
+import { Registration3 } from "./pages/Registration3";
+import { Registration4 } from "./pages/Registration4";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { RegistrationPage1 } from "./pages/Registration1";
-import { RegistrationPage2 } from "./pages/Registration2";
-import { RegistrationPage3 } from "./pages/Registration3";
-import { RegistrationPage4 } from "./pages/Registration4";
+import { Registration1 } from "./pages/Registration1";
+import { Registration2 } from "./pages/Registration2";
+import { Registration3 } from "./pages/Registration3";
+import { Registration4 } from "./pages/Registration4";
 import { CreateEventPage } from "./pages/CreateEventPage";
 import { Events } from "./pages/Events";
 import { Event } from "./pages/Event";
@@ -55,31 +60,34 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Routes for the sign-up and registration steps */}
+       {/* <Route path="/register" element={<SignUp />} /> */}
+        <Route path="/login" element={<Login/>} />
         {/* Authentication and Registration Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
           path="/register/step1"
           element={
-            <RegistrationPage1 formData={formData} setFormData={setFormData} />
+            <Registration1 formData={formData} setFormData={setFormData} />
           }
         />
         <Route
           path="/register/step2"
           element={
-            <RegistrationPage2 formData={formData} setFormData={setFormData} />
+            <Registration2 formData={formData} setFormData={setFormData} />
           }
         />
         <Route
           path="/register/step3"
           element={
-            <RegistrationPage3 formData={formData} setFormData={setFormData} />
+            <Registration3 formData={formData} setFormData={setFormData} />
           }
         />
         <Route
           path="/register/step4"
           element={
-            <RegistrationPage4 formData={formData} setFormData={setFormData} />
+            <Registration4 formData={formData} setFormData={setFormData} />
           }
         />
 
