@@ -14,8 +14,11 @@ import { SideBar } from "./components/SideBar";
 import { NavBar } from "./components/NavBar";
 import { AdminLogin } from "./pages/AdminLogin";
 import { AdminDashboard } from "./pages/AdminDashboard";
+import { AdminAlumni } from "./pages/AdminAlumni"; // Import the new AdminAlumni component
+import { AdminApproval } from "./pages/AdminApproval"; // Import the new AdminApproval component
 import Login from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
+import { LandingPage } from "./pages/LandingPage";
 
 // Layout Component for routes that require Sidebar and Navbar
 function Layout() {
@@ -43,17 +46,26 @@ function Layout() {
 // AdminLayout Component for admin-specific routes
 function AdminLayout() {
   return (
-    <div className="flex  flex-col w-full overflow-x-hidden">
-      <div className="pt-2">
-        <Routes>
-          <Route path="dashboard" element={<AdminDashboard />} />
-          {/* Add more admin-specific routes here if needed */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+    <div className="flex flex-col w-full overflow-x-hidden">
+      {/* Admin Sidebar */}
+      <SideBar />
+      <div className="flex flex-col w-full">
+        {/* Admin Navbar */}
+        <NavBar />
+        <div className="pl-[80px] pt-2 flex-grow">
+          <Routes>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="alumni" element={<AdminAlumni />} />
+            <Route path="approval" element={<AdminApproval />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );
 }
+
+
 
 function App() {
   const [formData, setFormData] = useState({
@@ -78,6 +90,7 @@ function App() {
         {/* Authentication and Registration Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/" element={<LandingPage />} />
 
         {/* Registration Steps */}
         <Route
@@ -108,11 +121,10 @@ function App() {
         {/* Protected Routes with Sidebar and Navbar */}
         <Route path="/user/*" element={<Layout />} />
 
-        {/* Admin Routes without Sidebar and Navbar */}
+        {/* Admin Routes */}
         <Route path="/admin/*" element={<AdminLayout />} />
 
         {/* Redirect to /user/home or /login if not authenticated */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
 
         {/* Fallback Route */}
         <Route path="*" element={<NotFound />} />
@@ -121,5 +133,7 @@ function App() {
   );
 }
 
+
+
+
 export default App;
-``;
