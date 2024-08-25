@@ -57,7 +57,7 @@ export const Communities = () => {
   );
 };
 
-
+  
 const CommunityComponent = ({ CommunityImg, CommunityName, onJoin }) => {
   return (
     <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg shadow-sm">
