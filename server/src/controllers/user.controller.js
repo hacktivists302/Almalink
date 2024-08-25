@@ -28,7 +28,16 @@ const generateAccessAndRefreshTokens = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, phone, password, role, city, university } = req.body;
+    const {
+        name,
+        email,
+        phone,
+        password,
+        role,
+        city,
+        university,
+        enrollmentNumber,
+    } = req.body;
 
     if (
         !name ||
@@ -37,7 +46,8 @@ const registerUser = asyncHandler(async (req, res) => {
         !password ||
         !role ||
         !city ||
-        !university
+        !university ||
+        !enrollmentNumber
     ) {
         throw new ApiError(400, "All fields are required");
     }
@@ -68,6 +78,7 @@ const registerUser = asyncHandler(async (req, res) => {
         role,
         city,
         university,
+        enrollmentNumber,
         profilePic: profilePic.url,
     });
 
