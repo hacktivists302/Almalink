@@ -1,4 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API } from "../utility/api";
 
 export const RegisterEvent = ({
   imageUrl,
@@ -6,7 +9,20 @@ export const RegisterEvent = ({
   description,
   link,
   startDate,
+  eventId,
 }) => {
+  const navigate = useNavigate();
+
+  const registerToEvent = async () => {
+    try {
+      const response = await axios.post(`${API}/events/${eventId}/register`);
+      console.log(response.data);
+      navigate("../events");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="relative flex bg-clip-border rounded-xl bg-white text-gray-700 shadow-md w-full max-w-[48rem] flex-row">
       <div className="relative w-2/5 m-0 overflow-hidden text-gray-700 bg-white rounded-r-none bg-clip-border rounded-xl shrink-0">
@@ -26,6 +42,7 @@ export const RegisterEvent = ({
           <button
             className="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-gray-900/10 active:bg-gray-900/20"
             type="button"
+            onClick={registerToEvent}
           >
             Register
             <svg

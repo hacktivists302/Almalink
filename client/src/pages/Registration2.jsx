@@ -6,6 +6,8 @@ export const Registration2 = ({ formData, setFormData }) => {
   const { role } = formData;
 
   const handleNext = () => {
+    console.log(formData);
+
     if (role) {
       navigate("/register/step3");
     } else {
@@ -29,7 +31,11 @@ export const Registration2 = ({ formData, setFormData }) => {
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6">
-            <SelectRole role={role} setFormData={setFormData} />
+            <SelectRole
+              formData={formData}
+              role={role}
+              setFormData={setFormData}
+            />
             <div className="flex justify-center mt-8">
               <button
                 type="button"
@@ -46,7 +52,7 @@ export const Registration2 = ({ formData, setFormData }) => {
   );
 };
 
-function SelectRole({ role, setFormData }) {
+function SelectRole({ role, formData, setFormData }) {
   return (
     <div className="max-w-sm mx-auto">
       <label
@@ -58,7 +64,7 @@ function SelectRole({ role, setFormData }) {
       <select
         id="role"
         value={role}
-        onChange={(e) => setFormData({ role: e.target.value })}
+        onChange={(e) => setFormData({ ...formData, role: e.target.value })}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
         <option value="" disabled>
