@@ -18,18 +18,20 @@ app.use(cookieParser());
 
 // routes import
 import userRoutes from "./routes/user.routes.js";
-// import postRoutes from "./routes/post.routes.js";
-// import commentRoutes from "./routes/comment.routes.js";
+import postRoutes from "./routes/post.routes.js";
+import commentRoutes from "./routes/comment.routes.js";
 import communityRouter from "./routes/community.routes.js";
 import followerRouter from "./routes/follower.routes.js";
 import eventRouter from "./routes/event.routes.js";
+import adminRouter from "./routes/admin.routes.js";
 
 // routes declaration
 app.use("/api/v1/users/", userRoutes);
-// app.use("/api/v1/posts/", postRoutes);
-// app.use("/api/v1/comments/", commentRoutes);
+app.use("/api/v1/posts/", postRoutes);
+app.use("/api/v1/comments/", commentRoutes);
 app.use("/api/v1/communities/", communityRouter);
 app.use("/api/v1/followers/", followerRouter);
 app.use("/api/v1/events/", eventRouter);
+app.use("/api/v1/admin/", adminRouter);
 
 export { app };
