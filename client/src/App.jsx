@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Registration1 } from "./pages/Registration1";
 import { Registration2 } from "./pages/Registration2";
 import { Registration3 } from "./pages/Registration3";
 import { Registration4 } from "./pages/Registration4";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { Registration1 } from "./pages/Registration1";
-import { Registration2 } from "./pages/Registration2";
-import { Registration3 } from "./pages/Registration3";
-import { Registration4 } from "./pages/Registration4";
 import { CreateEventPage } from "./pages/CreateEventPage";
 import { Events } from "./pages/Events";
 import { Event } from "./pages/Event";
@@ -18,6 +13,7 @@ import { Home } from "./pages/Home";
 import { SideBar } from "./components/SideBar";
 import { NavBar } from "./components/NavBar";
 import { AdminLogin } from "./pages/AdminLogin";
+import { AdminDashboard } from "./pages/AdminDashboard";
 import Login from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 
@@ -44,6 +40,21 @@ function Layout() {
   );
 }
 
+// AdminLayout Component for admin-specific routes
+function AdminLayout() {
+  return (
+    <div className="flex  flex-col w-full overflow-x-hidden">
+      <div className="pt-2">
+        <Routes>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          {/* Add more admin-specific routes here if needed */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [formData, setFormData] = useState({
     name: "",
@@ -61,11 +72,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Routes for the sign-up and registration steps */}
-       {/* <Route path="/register" element={<SignUp />} /> */}
-        <Route path="/login" element={<Login/>} />
-        {/* Authentication and Registration Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+
+        {/* Registration Steps */}
         <Route
           path="/register/step1"
           element={
@@ -94,6 +104,9 @@ function App() {
         {/* Protected Routes with Sidebar and Navbar */}
         <Route path="/user/*" element={<Layout />} />
 
+        {/* Admin Routes without Sidebar and Navbar */}
+        <Route path="/admin/*" element={<AdminLayout />} />
+
         {/* Redirect to /user/home or /login if not authenticated */}
         <Route path="/" element={<Navigate to="/login" replace />} />
 
@@ -105,3 +118,4 @@ function App() {
 }
 
 export default App;
+``;
