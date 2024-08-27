@@ -33,10 +33,8 @@ export const Profile = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(
-          `${API}/users/p/66cab0537344c91a1a1390e6`
-        );
-        setCurrUser(response.data.data[0]);
+        const response = await axios.get(`${API}/users/current-user`);
+        setCurrUser(response.data.data);
       } catch (error) {
         console.error(error);
       }
