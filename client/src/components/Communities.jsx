@@ -49,9 +49,9 @@ export const Communities = () => {
           {communities.map((community) => (
             <CommunityComponent
               key={community._id}
+              id={community._id}
               CommunityImg={community.imageUrl}
               CommunityName={community.name}
-              onJoin={() => alert(`Joined ${community.name}!`)}
             />
           ))}
         </div>
@@ -81,7 +81,16 @@ export const Communities = () => {
   );
 };
 
-const CommunityComponent = ({ CommunityImg, CommunityName, onJoin }) => {
+const CommunityComponent = ({ id, CommunityImg, CommunityName }) => {
+  const joinCommunity = async () => {
+    try {
+      await axios.post(`${API}/communities/${id}/join`);
+      alert(`Joined ${CommunityName}!`);
+    } catch (error) {
+      alert("Failed to join community");
+    }
+  };
+
   return (
     <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg shadow-sm">
       <div className="flex items-center">
@@ -93,7 +102,7 @@ const CommunityComponent = ({ CommunityImg, CommunityName, onJoin }) => {
         <div className="ml-3 text-gray-800 font-medium">{CommunityName}</div>
       </div>
       <button
-        onClick={onJoin}
+        onClick={joinCommunity}
         className="bg-green-600 text-white py-1 px-3 rounded-lg hover:bg-green-700 transition duration-200"
       >
         Join
