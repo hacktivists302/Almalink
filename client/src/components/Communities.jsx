@@ -1,28 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../utility/api";
 import axios from "axios";
 
 export const Communities = () => {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState();
   const [communities, setCommunities] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(`${API}/communities`);
+        setCommunities(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [communities]);
 
   const createCommunity = async () => {
     console.log(showForm);
     try {
-      const response = await axios.post(`${API}/communities`, showForm, {
+      const response = await axios.post(`${API}/users/register`, showForm, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log(response.data);
-      // setCommunities([...communities, response.data]);
-      console.log(communities);
-      navigate("/home");
+      setCommunities([...communities, response.data.data]);
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
+      alert("All fields are required");
     }
   };
 
@@ -35,6 +43,7 @@ export const Communities = () => {
         <div className="space-y-2">
           {communities.map((community) => (
             <CommunityComponent
+              key={community._id}
               CommunityImg={community.imageUrl}
               CommunityName={community.name}
               onJoin={() => alert(`Joined ${community.name}!`)}
@@ -63,7 +72,6 @@ export const Communities = () => {
   );
 };
 
-  
 const CommunityComponent = ({ CommunityImg, CommunityName, onJoin }) => {
   return (
     <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg shadow-sm">
