@@ -144,10 +144,10 @@ export const Registration1 = ({ formData, setFormData }) => {
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
                 <a
-                  href="#"
+                  href="/login"
                   className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                 >
-                  Login here
+                  Login 
                 </a>
               </p>
             </div>
