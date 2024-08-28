@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: "https://almalink.vercel.app/",
+        origin: process.env.PORT,
         credentials: true,
     })
 );
