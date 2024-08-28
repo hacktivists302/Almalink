@@ -5,10 +5,9 @@ import axios from "axios";
 
 export const Communities = () => {
   const [communityName, setCommunityName] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [communities, setCommunities] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -22,13 +21,17 @@ export const Communities = () => {
   }, [communities]);
 
   const createCommunity = async () => {
-    console.log(showForm);
     try {
-      const response = await axios.post(`${API}/users/register`, showForm, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        `${API}/communities`,
+        { name: communityName, imageUrl },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("response", response.data);
       setCommunities([...communities, response.data.data]);
     } catch (error) {
       console.log("error", error);
@@ -67,9 +70,9 @@ export const Communities = () => {
       {showForm && (
         <NewCommunityForm
           communityName={communityName}
-          imageFile={imageFile}
+          imageUrl={imageUrl}
           setCommunityName={setCommunityName}
-          setImageFile={setImageFile}
+          setImageUrl={setImageUrl}
           createCommunity={createCommunity}
           onClose={() => setShowForm(false)}
         />
@@ -77,7 +80,6 @@ export const Communities = () => {
     </div>
   );
 };
-
 
 const CommunityComponent = ({ CommunityImg, CommunityName, onJoin }) => {
   return (
@@ -105,18 +107,18 @@ function NewCommunityForm({
   createCommunity,
   communityName,
   setCommunityName,
-  imageFile,
-  setImageFile,
+  imageUrl,
+  setImageUrl,
 }) {
   const handleImageChange = (e) => {
-    setImageFile(e.target.files[0]);
+    setImageUrl(e.target.files[0]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission, including uploading the image file
-    console.log("Community Name:", communityName);
-    console.log("Selected Image File:", imageFile);
+    // console.log("Community Name:", communityName);
+    // console.log("Selected Image File:", imageFile);
 
     // Perform any necessary actions here, like sending the data to an API
 
@@ -155,7 +157,6 @@ function NewCommunityForm({
             </label>
             <input
               type="file"
-              accept="image/*"
               onChange={handleImageChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
