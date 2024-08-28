@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  function handleNext() {}
+  const navigate = useNavigate()
+  function handleNext() {
+    navigate("/admin/student")
+  }
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900">

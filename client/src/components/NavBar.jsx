@@ -7,7 +7,7 @@ export const NavBar = () => {
     <nav className="border ">
       <div className="max-w-screen-2xl  flex flex-wrap items-center  justify-between mx-auto p-4 ">
         <SearchBox />
-        <UserProfileDropdown />
+        <UserProfileDropdown email={"das2060536@gmial.com"} name={"Rahul"} nameClass={"text-slate-500"} />
       </div>
     </nav>
   );
@@ -42,7 +42,7 @@ function SearchBox() {
   );
 }
 
-const UserProfileDropdown = () => {
+export const UserProfileDropdown = ({ name ,nameClass,institution,email}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -54,17 +54,16 @@ const UserProfileDropdown = () => {
       <button
         id="dropdownAvatarNameButton"
         onClick={toggleDropdown}
-        className="flex items-center text-sm pe-1 font-medium text-gray-900 rounded-full hover:text-blue-600 focus:ring-4 focus:ring-gray-100 md:me-0"
+        className="flex items-center text-sm pe-1 font-medium  rounded-full hover:text-blue-600 focus:ring-4 focus:ring-gray-100 md:me-0"
         type="button"
       >
-        <span className="sr-only">Open user menu</span>
         <img
           className="w-8 h-8 me-2 rounded-full"
           src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
           alt="user photo"
         />
-        Rahul Das
-        <svg
+        <div className={nameClass} >{name}</div>
+        {institution ?   <svg
           className="w-2.5 h-2.5 ms-3"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
@@ -72,13 +71,30 @@ const UserProfileDropdown = () => {
           viewBox="0 0 10 6"
         >
           <path
-            stroke="currentColor"
+            stroke="white"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
             d="m1 1 4 4 4-4"
           />
-        </svg>
+        </svg> :
+       <svg
+       className="w-2.5 h-2.5 ms-3"
+       aria-hidden="true"
+       xmlns="http://www.w3.org/2000/svg"
+       fill="none"
+       viewBox="0 0 10 6"
+     >
+       <path
+         stroke="#6B7280" 
+         strokeLinecap="round"
+         strokeLinejoin="round"
+         strokeWidth="2"
+         d="m1 1 4 4 4-4"
+       />
+     </svg>
+     
+        }
       </button>
 
       {isOpen && (
@@ -86,9 +102,10 @@ const UserProfileDropdown = () => {
           id="dropdownAvatarName"
           className="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
         >
+          
           <div className="px-4 py-3 text-sm text-gray-900">
             <div className="font-medium">Pro User</div>
-            <div className="truncate">Rahul@hack.com</div>
+            <div className="truncate">{email}</div>
           </div>
           <div className="py-2">
             <a

@@ -1,0 +1,72 @@
+{
+    "routes": [
+        {
+            "src": "/",
+            "dest": "/"
+        },
+        {
+            "src": "/login",
+            "dest": "/login"
+        },
+        {
+            "src": "/register/step1",
+            "dest": "/register/step1"
+        },
+        {
+            "src": "/register/step2",
+            "dest": "/register/step2"
+        },
+        {
+            "src": "/register/step3",
+            "dest": "/register/step3"
+        },
+        {
+            "src": "/register/step4",
+            "dest": "/register/step4"
+        },
+        {
+            "src": "/user/home",
+            "dest": "/user/home"
+        },
+        {
+            "src": "/user/events",
+            "dest": "/user/events"
+        },
+        {
+            "src": "/user/event/:userId",
+            "dest": "/user/event/:userId"
+        },
+        {
+            "src": "/user/chats",
+            "dest": "/user/chats"
+        },
+        {
+            "src": "/user/profile",
+            "dest": "/user/profile"
+        },
+        {
+            "src": "/user/event/create",
+            "dest": "/user/event/create"
+        },
+        {
+            "src": "/admin/login",
+            "dest": "/admin/login"
+        },
+        {
+            "src": "/admin/student",
+            "dest": "/admin/student"
+        },
+        {
+            "src": "/admin/alumni",
+            "dest": "/admin/alumni"
+        },
+        {
+            "src": "/admin/approval",
+            "dest": "/admin/approval"
+        },
+        {
+            "src": "*",
+            "dest": "/not-found"
+        }
+    ]
+}
