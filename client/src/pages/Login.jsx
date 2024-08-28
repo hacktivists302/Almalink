@@ -11,13 +11,16 @@ export default function Login() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post(`${API}/users/login`, {
-      email,
-      password,
-    });
-    console.log("response", response);
+    try {
+      await axios.post(`${API}/users/login`, {
+        email,
+        password,
+      });
 
-    navigate("/user/home");
+      navigate("/user/home");
+    } catch (error) {
+      alert("Invalid email or password");
+    }
   };
 
   return (
@@ -115,7 +118,6 @@ export default function Login() {
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
-                  
                   <Link
                     to={"/register/step1"}
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
