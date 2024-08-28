@@ -6,6 +6,12 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const createEvent = asyncHandler(async (req, res) => {
+    const role = req.user.role;
+
+    if (role === "student") {
+        throw new ApiError(403, "You are not authorized to create event");
+    }
+
     const { type, title, description, startDate, endDate, startTime, endTime } =
         req.body;
     const userId = req.user._id;

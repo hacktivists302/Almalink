@@ -15,8 +15,6 @@ export const Home = () => {
 
   useEffect(() => {
     (async () => {
-      console.log("Fetching events");
-
       try {
         const response = await axios.get(`${API}/events/unregistered`);
         setEvents(response.data.data);
@@ -68,8 +66,6 @@ export const Home = () => {
     </>
   );
 };
-
-
 
 function Posts() {
   return (

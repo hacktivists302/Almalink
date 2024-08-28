@@ -34,10 +34,9 @@ const userSchema = new Schema(
             enum: ["student", "alumni"],
             default: "student",
         },
-        status: {
-            type: String,
-            enum: ["pending", "denied", "approved"],
-            default: "pending",
+        isVerified: {
+            type: Boolean,
+            default: false,
         },
         city: {
             type: String,
@@ -54,9 +53,11 @@ const userSchema = new Schema(
         bio: {
             type: String,
             // required: true,
+            default: "",
         },
         interests: {
             type: [String],
+            default: [],
         },
         events: {
             type: Schema.Types.ObjectId,

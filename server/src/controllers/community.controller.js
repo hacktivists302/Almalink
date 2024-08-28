@@ -7,6 +7,11 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const createCommunity = asyncHandler(async (req, res) => {
+    const role = req.user.role;
+    if (role == "student") {
+        throw new ApiError(403, "You are not authorized to create community");
+    }
+
     const { name } = req.body;
     const userId = req.user._id;
 

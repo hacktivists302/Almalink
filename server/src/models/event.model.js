@@ -2,11 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 const eventSchema = new Schema(
     {
-        type: {
-            type: String,
-            enum: ["online", "offline"],
-            required: true,
-        },
         title: {
             type: String,
             required: true,
@@ -28,14 +23,7 @@ const eventSchema = new Schema(
             type: Date,
             required: true,
         },
-        location: {
-            type: String,
-        },
         startTime: {
-            type: String,
-            required: true,
-        },
-        endTime: {
             type: String,
             required: true,
         },

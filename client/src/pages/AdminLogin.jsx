@@ -1,13 +1,27 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API } from "../utility/api";
 
 export const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
-  function handleNext() {
-    navigate("/admin/student")
-  }
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post(`${API}/admin/login`, {
+        email,
+        password,
+      });
+      navigate("/admin/student");
+    } catch (error) {
+      alert("Invalid credentials");
+    }
+  };
+
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900">
@@ -57,7 +71,9 @@ export const AdminLogin = () => {
                   <input
                     type="text"
                     name="name"
-                    onChange={(e) => {setPassword(e.target.value)}}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
                     value={password}
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -92,7 +108,7 @@ export const AdminLogin = () => {
                   </div>
                 </div>
                 <button
-                  onClick={handleNext}
+                  onClick={handleSubmit}
                   type="button"
                   className="w-full text-white bg-slate-500 hover:bg-slate-600 focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800"
                 >

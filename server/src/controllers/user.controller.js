@@ -37,7 +37,10 @@ const registerUser = asyncHandler(async (req, res) => {
         city,
         university,
         enrollmentNumber,
+        bio,
     } = req.body;
+
+    console.log(req.body);
 
     if (
         !name ||
@@ -80,6 +83,7 @@ const registerUser = asyncHandler(async (req, res) => {
         university,
         enrollmentNumber,
         profilePic: profilePic.url,
+        bio,
     });
 
     const createdUser = await User.findById(user._id).select(
