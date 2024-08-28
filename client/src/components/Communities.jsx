@@ -4,6 +4,8 @@ import { API } from "../utility/api";
 import axios from "axios";
 
 export const Communities = () => {
+  const [communityName, setCommunityName] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [communities, setCommunities] = useState([]);
   const navigate = useNavigate();
@@ -55,6 +57,10 @@ export const Communities = () => {
 
       {showForm && (
         <NewCommunityForm
+          communityName={communityName}
+          imageFile={imageFile}
+          setCommunityName={setCommunityName}
+          setImageFile={setImageFile}
           createCommunity={createCommunity}
           onClose={() => setShowForm(false)}
         />
@@ -63,7 +69,6 @@ export const Communities = () => {
   );
 };
 
-  
 const CommunityComponent = ({ CommunityImg, CommunityName, onJoin }) => {
   return (
     <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg shadow-sm">
@@ -85,10 +90,14 @@ const CommunityComponent = ({ CommunityImg, CommunityName, onJoin }) => {
   );
 };
 
-function NewCommunityForm({ onClose, createCommunity }) {
-  const [communityName, setCommunityName] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-
+function NewCommunityForm({
+  onClose,
+  createCommunity,
+  communityName,
+  setCommunityName,
+  imageFile,
+  setImageFile,
+}) {
   const handleImageChange = (e) => {
     setImageFile(e.target.files[0]);
   };
