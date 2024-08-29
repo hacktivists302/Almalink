@@ -24,7 +24,7 @@ export const Events = () => {
         console.error(error);
       }
     })();
-  }, []);
+  }, [events, myEvents]);
 
   return (
     <>
@@ -128,19 +128,33 @@ const EventForm = ({ onClose }) => {
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [coverImage, setCoverImage] = useState("");
+  const [coverImage, setCoverImage] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      title,
-      description,
-      startDate,
-      startTime,
-      endDate,
-      coverImage,
-    });
-    onClose(); // Close the popup after submission
+
+    try {
+      const response = await axios.post(
+        `${API}/events/create`,
+        {
+          title,
+          description,
+          startDate,
+          startTime,
+          endDate,
+          coverImage,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -159,8 +173,7 @@ const EventForm = ({ onClose }) => {
           <InputField
             label="Title"
             type="text"
-            value={title}
-            onChange={setTitle}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="Event Title"
             required
           />
@@ -173,30 +186,26 @@ const EventForm = ({ onClose }) => {
           <InputField
             label="Start Date"
             type="date"
-            value={startDate}
-            onChange={setStartDate}
+            onChange={(e) => setStartDate(e.target.value)}
             required
           />
           <InputField
             label="Start Time"
             type="time"
-            value={startTime}
-            onChange={setStartTime}
+            onChange={(e) => setStartTime(e.target.value)}
             required
           />
           <InputField
             label="End Date"
             type="date"
-            value={endDate}
-            onChange={setEndDate}
+            onChange={(e) => setEndDate(e.target.value)}
             required
           />
           <InputField
             label="Cover Image URL"
             type="file"
             accept="image/*"
-            value={coverImage}
-            onChange={setCoverImage}
+            onChange={(e) => setCoverImage(e.target.files[0])}
           />
 
           <div className="flex items-center justify-between mt-4">
@@ -238,7 +247,7 @@ const InputField = ({
       type={type}
       value={value}
       accept={accept}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={onChange}
       className="w-full bg-slate-200 p-2 border rounded text-slate-700 focus:outline-none focus:border-blue-400"
       placeholder={placeholder}
       required={required}
@@ -252,7 +261,7 @@ const TextAreaField = ({ label, value, onChange, placeholder, required }) => (
     <label className="block text-slate-900">{label}</label>
     <textarea
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={onChange}
       className="w-full bg-slate-200 p-2 border rounded text-slate-700 focus:outline-none focus:border-blue-400"
       placeholder={placeholder}
       required={required}

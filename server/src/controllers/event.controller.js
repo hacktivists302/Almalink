@@ -12,20 +12,14 @@ const createEvent = asyncHandler(async (req, res) => {
         throw new ApiError(403, "You are not authorized to create event");
     }
 
-    const { type, title, description, startDate, endDate, startTime, endTime } =
+    const { title, description, startDate, endDate, startTime, endTime } =
         req.body;
     const userId = req.user._id;
     const university = req.user.university;
 
-    if (
-        !type ||
-        !title ||
-        !description ||
-        !startDate ||
-        !endDate ||
-        !startTime ||
-        !endTime
-    ) {
+    console.log(req.body);
+
+    if (!title || !description || !startDate || !endDate || !startTime) {
         throw new ApiError(400, "All fields are required");
     }
 
@@ -58,7 +52,11 @@ const createEvent = asyncHandler(async (req, res) => {
 });
 
 const getAllEvents = asyncHandler(async (req, res) => {
-    const events = await Event.find().sort({ createdAt: -1 });
+    const userId = req.user._id;
+
+    const university = await User.findById(userId).select("university");
+
+    const events = await Event.find({ university }).sort({ createdAt: -1 });
     return res.status(200).json(new ApiResponse(200, events));
 });
 
@@ -182,7 +180,14 @@ const isUserRegistered = asyncHandler(async (req, res) => {
 const getUserUnregisterdEvents = asyncHandler(async (req, res) => {
     const userId = req.user._id;
 
-    const events = await Event.find({ registedUsers: { $ne: userId } });
+    const user = await User.findById(userId).select("university");
+
+    const university = user.university;
+
+    const events = await Event.find({
+        university,
+        registedUsers: { $ne: userId },
+    });
 
     return res.status(200).json(new ApiResponse(200, events));
 });

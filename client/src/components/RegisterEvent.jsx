@@ -16,8 +16,6 @@ export const RegisterEvent = ({
   const registerToEvent = async () => {
     try {
       const response = await axios.post(`${API}/events/${eventId}/register`);
-      console.log(response.data);
-      navigate("../events");
     } catch (error) {
       console.log(error);
     }

@@ -31,7 +31,6 @@ export const Communities = () => {
           },
         }
       );
-      console.log("response", response.data);
       setCommunities([...communities, response.data.data]);
     } catch (error) {
       console.log("error", error);

@@ -17,6 +17,7 @@ export const Home = () => {
     (async () => {
       try {
         const response = await axios.get(`${API}/events/unregistered`);
+        console.log(response.data.data);
         setEvents(response.data.data);
       } catch (error) {
         console.error(error);
