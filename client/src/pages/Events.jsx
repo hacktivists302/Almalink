@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import EventCard from "../components/MyEventCard";
 import { RegisterEvent } from "../components/RegisterEvent";
 import { Popup } from "../components/Popup";
@@ -11,25 +11,28 @@ export const Events = () => {
   const navigate = useNavigate();
   const [myEvents, setMyEvents] = useState([]);
   const [events, setEvents] = useState([]);
+  const [shouldFetch, setShouldFetch] = useState(false);
+
+  const fetchData=useCallback(async () => {
+    try {
+      const response = await axios.get(`${API}/events/my-events`);
+      setMyEvents(response.data.data);
+
+      const response2 = await axios.get(`${API}/events/unregistered`);
+      setEvents(response2.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  },[])
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get(`${API}/events/my-events`);
-        setMyEvents(response.data.data);
-
-        const response2 = await axios.get(`${API}/events/unregistered`);
-        setEvents(response2.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [events, myEvents]);
+    fetchData()
+  }, [shouldFetch, fetchData]);
 
   return (
     <>
       {/* Popup for Event Form */}
-      {popup && <EventForm onClose={() => setPopup(false)} />}
+      {popup && <EventForm setShouldFetch={setShouldFetch} onClose={() => setPopup(false)} />}
 
       {/* My Events Section */}
       <SectionTitle
@@ -122,7 +125,7 @@ const PlusButton = ({ popup, setPopup }) => {
 };
 
 // Event Form Component
-const EventForm = ({ onClose }) => {
+const EventForm = ({ onClose ,setShouldFetch}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -150,8 +153,8 @@ const EventForm = ({ onClose }) => {
           },
         }
       );
-
       onClose();
+      setShouldFetch((prev)=>!prev)
     } catch (error) {
       console.log(error);
     }

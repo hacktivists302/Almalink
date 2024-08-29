@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../utility/api";
 import axios from "axios";
@@ -9,16 +9,18 @@ export const Communities = () => {
   const [showForm, setShowForm] = useState(false);
   const [communities, setCommunities] = useState([]);
 
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await axios.get(`${API}/communities`);
+      setCommunities(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  },[communities])
+
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get(`${API}/communities`);
-        setCommunities(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [communities]);
+    fetchData()
+  }, []);
 
   const createCommunity = async () => {
     try {
