@@ -36,21 +36,13 @@ const createEvent = asyncHandler(async (req, res) => {
 
     const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
-    let location = req.body.location;
-    if (!location) {
-        location = "Online";
-    }
-
     const event = await Event.create({
-        type,
         title,
         description,
         owner: userId,
         startDate,
         endDate,
-        location,
         startTime,
-        endTime,
         coverImage: coverImage.url,
     });
 
@@ -182,6 +174,24 @@ const getUserUnregisterdEvents = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, events));
 });
 
+const completeEvent = asyncHandler(async (req, res) => {
+    const { eventId } = req.params;
+
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+        throw new ApiError(404, "Event not found");
+    }
+
+    event.isCompleted = true;
+
+    await event.save({ validateBeforeSave: false });
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, event, "Event completed successfully"));
+});
+
 export {
     createEvent,
     getAllEvents,
@@ -191,4 +201,5 @@ export {
     isUserRegistered,
     getUserEvents,
     getUserUnregisterdEvents,
+    completeEvent,
 };

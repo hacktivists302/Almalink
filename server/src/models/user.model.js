@@ -69,6 +69,12 @@ const userSchema = new Schema(
                 ref: "Event",
             },
         ],
+        registeredAdminEvents: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "AdminEvent",
+            },
+        ],
         communities: [
             {
                 type: Schema.Types.ObjectId,
