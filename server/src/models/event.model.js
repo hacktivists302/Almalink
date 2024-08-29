@@ -15,6 +15,10 @@ const eventSchema = new Schema(
             ref: "User",
             required: true,
         },
+        university: {
+            type: String,
+            required: true,
+        },
         startDate: {
             type: Date,
             required: true,

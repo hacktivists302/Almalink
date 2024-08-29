@@ -15,6 +15,7 @@ const createEvent = asyncHandler(async (req, res) => {
     const { type, title, description, startDate, endDate, startTime, endTime } =
         req.body;
     const userId = req.user._id;
+    const university = req.user.university;
 
     if (
         !type ||
@@ -40,6 +41,7 @@ const createEvent = asyncHandler(async (req, res) => {
         title,
         description,
         owner: userId,
+        university,
         startDate,
         endDate,
         startTime,
@@ -83,6 +85,17 @@ const registerUserToEvent = asyncHandler(async (req, res) => {
     const user = await User.findById(userId);
     if (!user) {
         throw new ApiError(404, "User not found");
+    }
+
+    if (event.isCompleted === true) {
+        throw new ApiError(400, "Event is completed");
+    }
+
+    if (event.university !== user.university) {
+        throw new ApiError(
+            400,
+            "You are not allowed to register to this event"
+        );
     }
 
     const isOwner = await Event.findOne({ _id: eventId, owner: userId });

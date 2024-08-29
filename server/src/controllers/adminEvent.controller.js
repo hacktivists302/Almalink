@@ -73,6 +73,17 @@ const registerUserToAdminEvent = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Event not found");
     }
 
+    if (event.isCompleted === true) {
+        throw new ApiError(400, "Event is completed");
+    }
+
+    if (event.university !== user.university) {
+        throw new ApiError(
+            400,
+            "You are not allowed to register to this event"
+        );
+    }
+
     if (event.registedUsers.includes(userId)) {
         throw new ApiError(400, "User already registered to this event");
     }
