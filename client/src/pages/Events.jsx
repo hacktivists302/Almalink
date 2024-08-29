@@ -132,7 +132,14 @@ const EventForm = ({ onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ title, description, startDate, startTime, endDate, coverImage });
+    console.log({
+      title,
+      description,
+      startDate,
+      startTime,
+      endDate,
+      coverImage,
+    });
     onClose(); // Close the popup after submission
   };
 
@@ -141,7 +148,10 @@ const EventForm = ({ onClose }) => {
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-800">Create Event</h2>
-          <button onClick={onClose} className="text-gray-600 hover:text-gray-800">
+          <button
+            onClick={onClose}
+            className="text-gray-600 hover:text-gray-800"
+          >
             ✖
           </button>
         </div>
@@ -154,14 +164,19 @@ const EventForm = ({ onClose }) => {
             placeholder="Event Title"
             required
           />
-          <TextAreaField label={"Description"}   onChange={(e)=>setDescription(e.target.value)} placeholder={"Enter Description.."} required/>
+          <TextAreaField
+            label={"Description"}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder={"Enter Description.."}
+            required
+          />
           <InputField
             label="Start Date"
             type="date"
             value={startDate}
             onChange={setStartDate}
             required
-          />  
+          />
           <InputField
             label="Start Time"
             type="time"
@@ -178,10 +193,10 @@ const EventForm = ({ onClose }) => {
           />
           <InputField
             label="Cover Image URL"
-            type="url"
+            type="file"
+            accept="image/*"
             value={coverImage}
             onChange={setCoverImage}
-            placeholder="https://example.com/image.jpg"
           />
 
           <div className="flex items-center justify-between mt-4">
@@ -215,12 +230,14 @@ const InputField = ({
   onChange,
   placeholder,
   required,
+  accept,
 }) => (
   <div className="mb-4">
     <label className="block text-slate-900">{label}</label>
     <input
       type={type}
       value={value}
+      accept={accept}
       onChange={(e) => onChange(e.target.value)}
       className="w-full bg-slate-200 p-2 border rounded text-slate-700 focus:outline-none focus:border-blue-400"
       placeholder={placeholder}
@@ -228,7 +245,6 @@ const InputField = ({
     />
   </div>
 );
-
 
 // Reusable TextArea Field Component
 const TextAreaField = ({ label, value, onChange, placeholder, required }) => (
