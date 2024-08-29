@@ -14,6 +14,9 @@ const postSchema = new Schema(
             type: String,
             required: true,
         },
+        image: {
+            type: String,
+        },
         type: {
             type: String,
             enum: ["normal", "community"],

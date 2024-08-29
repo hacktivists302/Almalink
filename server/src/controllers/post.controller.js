@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Post } from "../models/post.model.js";
 import { User } from "../models/user.model.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const createPost = asyncHandler(async (req, res) => {
     const { title, content } = req.body;
@@ -12,11 +13,38 @@ const createPost = asyncHandler(async (req, res) => {
         throw new ApiError(400, "All fields are required");
     }
 
-    const post = await Post.create({
-        title,
-        content,
-        owner: userId,
-    });
+    let imageLocalPath;
+
+    if (req.file) {
+        imageLocalPath = req.file.path;
+    }
+
+    console.log(imageLocalPath);
+
+    let post;
+    if (imageLocalPath) {
+        const image = await uploadOnCloudinary(imageLocalPath);
+
+        if (!image) {
+            throw new ApiError(
+                500,
+                "Something went wrong while uploading image"
+            );
+        }
+
+        post = await Post.create({
+            title,
+            content,
+            image: image.url,
+            owner: userId,
+        });
+    } else {
+        post = await Post.create({
+            title,
+            content,
+            owner: userId,
+        });
+    }
 
     if (!post) {
         throw new ApiError(500, "Something went wrong while creating post");
