@@ -8,6 +8,7 @@ export const Communities = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [communities, setCommunities] = useState([]);
+  const [fetchCommunities,setFetchCommunities] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
@@ -16,11 +17,11 @@ export const Communities = () => {
     } catch (error) {
       console.error(error);
     }
-  },[communities])
+  },[])
 
   useEffect(() => {
     fetchData()
-  }, []);
+  }, [fetchCommunities]);
 
   const createCommunity = async () => {
     try {
@@ -34,6 +35,7 @@ export const Communities = () => {
         }
       );
       setCommunities([...communities, response.data.data]);
+       setFetchCommunities((prev)=>!prev)
     } catch (error) {
       console.log("error", error);
       alert("All fields are required");
