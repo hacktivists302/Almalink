@@ -21,7 +21,7 @@ export const Communities = () => {
 
   useEffect(() => {
     fetchData()
-  }, [fetchCommunities]);
+  }, [fetchCommunities,fetchData]);
 
   const createCommunity = async () => {
     try {

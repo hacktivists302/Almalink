@@ -10,8 +10,8 @@ import {
     completeEvent,
 } from "../controllers/event.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
+import { Router } from "express";
 
 const router = Router();
 

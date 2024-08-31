@@ -8,6 +8,7 @@ import {
     updateUserProfilePic,
     getLikedPosts,
     getUserProfile,
+    allUsers,
 } from "../controllers/user.controller.js";
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -30,5 +31,7 @@ router
     .patch(verifyJWT, upload.single("profilePic"), updateUserProfilePic);
 
 router.route("/p/:userId").get(verifyJWT, getUserProfile);
+
+router.route("/").get(verifyJWT,allUsers)
 
 export default router;
