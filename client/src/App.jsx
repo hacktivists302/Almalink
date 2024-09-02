@@ -19,6 +19,7 @@ import { AdminApproval } from "./pages/AdminApproval"; // Import the new AdminAp
 import Login from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { LandingPage } from "./pages/LandingPage";
+import Verified from "./pages/Verified";
 
 // Layout Component for routes that require Sidebar and Navbar
 function Layout() {
@@ -46,15 +47,14 @@ function Layout() {
 // AdminLayout Component for admin-specific routes
 function AdminLayout() {
   return (
-   
-      <Routes>
-        <Route path="login" element={<AdminLogin />} />
-
-        <Route path="student" element={<AdminStudent />} />
-        <Route path="alumni" element={<AdminAlumni />} />
-        <Route path="approval" element={<AdminApproval />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+    <Routes>
+      <Route path="login" element={<AdminLogin />} />
+      <Route path="/users/:userId/verify-email/:token" element={<Verified />} />
+      <Route path="student" element={<AdminStudent />} />
+      <Route path="alumni" element={<AdminAlumni />} />
+      <Route path="approval" element={<AdminApproval />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 

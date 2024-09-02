@@ -8,6 +8,8 @@ import {
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { Token } from "../models/token.model.js";
+import { nodemailerTransport as sendEmail } from "../utils/Nodemailer.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -40,8 +42,6 @@ const registerUser = asyncHandler(async (req, res) => {
         bio,
     } = req.body;
 
-    console.log(req.body);
-
     if (
         !name ||
         !email ||
@@ -50,7 +50,8 @@ const registerUser = asyncHandler(async (req, res) => {
         !role ||
         !city ||
         !university ||
-        !enrollmentNumber
+        !enrollmentNumber ||
+        !bio
     ) {
         throw new ApiError(400, "All fields are required");
     }
@@ -94,9 +95,52 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Something went wrong while creating user");
     }
 
+    const token = await Token.create({
+        userId: createdUser._id,
+        token: jwt.sign(
+            { _id: createdUser._id },
+            process.env.VERIFY_EMAIL_TOKEN_SECRET,
+            {
+                expiresIn: "1d",
+            }
+        ),
+    });
+
+    const url = `${process.env.BASE_URL}/api/v1/users/${createdUser._id}/verify-email/${token.token}`;
+    await sendEmail(createdUser.email, "Verify Email", url);
+
     return res
         .status(201)
-        .json(new ApiResponse(200, createdUser, "User created successfully"));
+        .json(
+            new ApiResponse(
+                200,
+                createdUser,
+                "An email has been sent to your account please verify your email"
+            )
+        );
+});
+
+const verifyEmail = asyncHandler(async (req, res) => {
+    const { userId, token } = req.params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const hasToken = await Token.findOne({ userId, token });
+
+    if (!hasToken) {
+        throw new ApiError(404, "Invalid link");
+    }
+
+    await User.findByIdAndUpdate(userId, { isVerified: true });
+    await Token.findOneAndDelete({ userId, token });
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "Email verified successfully"));
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -371,21 +415,22 @@ const getUserProfile = asyncHandler(async (req, res) => {
 //@access          Public
 const allUsers = asyncHandler(async (req, res) => {
     const keyword = req.query.search
-      ? {
-          $or: [
-            { name: { $regex: req.query.search, $options: "i" } },
-            { email: { $regex: req.query.search, $options: "i" } },
-          ],
-        }
-      : {};
-  
+        ? {
+              $or: [
+                  { name: { $regex: req.query.search, $options: "i" } },
+                  { email: { $regex: req.query.search, $options: "i" } },
+              ],
+          }
+        : {};
+
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
     res.send(users);
-  });
+});
 
 export {
     allUsers,
     registerUser,
+    verifyEmail,
     loginUser,
     logoutUser,
     refreshAccessToken,

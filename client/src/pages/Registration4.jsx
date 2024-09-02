@@ -8,15 +8,20 @@ export const Registration4 = ({ formData, setFormData }) => {
   const { bio, profilePic } = formData;
 
   const handleNext = async () => {
+    console.log("final", formData);
+
     try {
       const response = await axios.post(`${API}/users/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      navigate("../login");
+
+      console.log(response);
+
+      // navigate("../login");
     } catch (error) {
-      alert("All fields are required");
+      console.log(error);
     }
   };
 

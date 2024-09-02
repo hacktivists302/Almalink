@@ -1,5 +1,6 @@
 import {
     registerUser,
+    verifyEmail,
     loginUser,
     logoutUser,
     refreshAccessToken,
@@ -17,6 +18,8 @@ const router = Router();
 
 router.route("/register").post(upload.single("profilePic"), registerUser);
 
+router.route("/:userId/verify-email/:token").get(verifyEmail);
+
 router.route("/login").post(loginUser);
 
 // secure routes
@@ -32,6 +35,6 @@ router
 
 router.route("/p/:userId").get(verifyJWT, getUserProfile);
 
-router.route("/").get(verifyJWT,allUsers)
+router.route("/").get(verifyJWT, allUsers);
 
 export default router;
