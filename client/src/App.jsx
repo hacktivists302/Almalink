@@ -49,7 +49,6 @@ function AdminLayout() {
   return (
     <Routes>
       <Route path="login" element={<AdminLogin />} />
-      <Route path="/users/:userId/verify-email/:token" element={<Verified />} />
       <Route path="student" element={<AdminStudent />} />
       <Route path="alumni" element={<AdminAlumni />} />
       <Route path="approval" element={<AdminApproval />} />
@@ -81,6 +80,10 @@ function App() {
         {/* Authentication and Registration Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/users/:userId/verify-email/:token"
+          element={<Verified />}
+        />
 
         {/* Registration Steps */}
         <Route

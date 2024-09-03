@@ -106,7 +106,7 @@ const registerUser = asyncHandler(async (req, res) => {
         ),
     });
 
-    const url = `${process.env.BASE_URL}/api/v1/users/${createdUser._id}/verify-email/${token.token}`;
+    const url = `${process.env.BASE_URL}/users/${createdUser._id}/verify-email/${token.token}`;
     await sendEmail(createdUser.email, "Verify Email", url);
 
     return res
@@ -160,6 +160,32 @@ const loginUser = asyncHandler(async (req, res) => {
 
     if (!isPasswordValid) {
         throw new ApiError(401, "Invalid user Credentials");
+    }
+
+    if (!user.isVerified) {
+        let token = await Token.findOne({ userId: user._id });
+
+        if (!token) {
+            token = await Token.create({
+                userId: user._id,
+                token: jwt.sign(
+                    { _id: user._id },
+                    process.env.VERIFY_EMAIL_TOKEN_SECRET,
+                    {
+                        expiresIn: "1d",
+                    }
+                ),
+            });
+        }
+
+        const url = `${process.env.BASE_URL}/users/${user._id}/verify-email/${token.token}`;
+        await sendEmail(user.email, "Verify Email", url);
+
+        return res
+            .status(401)
+            .json(
+                new ApiResponse(401, {}, "Please verify your email to login")
+            );
     }
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(

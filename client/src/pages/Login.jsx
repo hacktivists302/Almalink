@@ -19,7 +19,7 @@ export default function Login() {
 
       navigate("/user/home");
     } catch (error) {
-      alert("Invalid email or password");
+      console.log(error.response.data.message);
     }
   };
 

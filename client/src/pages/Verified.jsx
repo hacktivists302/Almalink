@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { API } from "../utility/api";
 
 const Verified = () => {
   const params = useParams();
@@ -7,18 +8,18 @@ const Verified = () => {
 
   useEffect(() => {
     const verifyEmail = async () => {
-      try {
-        const response = await axios.get(
-          `${API}/users/${params.userId}/verify-email/${params.token}`
-        );
-
-        console.log(response);
-
-        setValidUrl(true);
-      } catch (error) {
-        console.log(error);
-        setValidUrl(false);
-      }
+      fetch(`${API}/users/${params.userId}/verify-email/${params.token}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setValidUrl(true);
+          console.log(validUrl);
+        })
+        .catch((error) => {
+          console.log(error);
+          setValidUrl(false);
+          console.log(validUrl);
+        });
     };
     verifyEmail();
   }, [params]);

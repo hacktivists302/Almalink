@@ -8,8 +8,6 @@ export const Registration4 = ({ formData, setFormData }) => {
   const { bio, profilePic } = formData;
 
   const handleNext = async () => {
-    console.log("final", formData);
-
     try {
       const response = await axios.post(`${API}/users/register`, formData, {
         headers: {
@@ -18,7 +16,7 @@ export const Registration4 = ({ formData, setFormData }) => {
       });
 
       console.log(response);
-
+      console.log(response.data.message);
       // navigate("../login");
     } catch (error) {
       console.log(error);
